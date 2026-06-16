@@ -3,8 +3,12 @@ import numpy as np
 import pandas as pd
 
 st.title("BRRR Valuation Calculator")
-
-st.write("Note that this does not account for any bridging loan repayments")
+st.subheader("Assumptions/notes:")
+st.write("- This does not account for any bridging loan repayments")
+st.write("- There is no deposit for the mortgage post renovation due to ownership")
+st.write("- Assumes mortgage post renovation is always 75% LTV")
+st.write("- There is no stamp duty due to sole purchase of uninhabitable properties")
+st.write("- Additional solicitor/miscellaneous fees may apply")
 
 # Does not account for Birdging Loan repayments
 
@@ -37,12 +41,15 @@ cash_left_in = Initial_Investment - cash_released
 equity = Value_After_Renovation - loan_amount
 costs = Property_Price + Renovation_Cost
 deal_profit = Value_After_Renovation - (Property_Price + Renovation_Cost)
+true_gain = equity + cash_released - Initial_Investment
+ROI = true_gain / Initial_Investment * 100
 net_position = cash_released + equity
-ROI = ROI = (cash_released + equity) / Initial_Investment * 100 if Initial_Investment else 0
+cash_position = cash_released - Initial_Investment
 st.metric("Value created in the asset (Deal uplift)", f"£{deal_profit:,.2f}") # Value created in asset
 st.metric("Cash pulled out from refinancing",f"£{cash_released:,.2f}") # Money recovered from refinancing
 st.metric("Your ROI:", f"{ROI:.2f}%")
 st.metric("Total position (cash + equity)", f"£{net_position:,.2f}")
+st.metric("Cash left in deal", f"£{cash_position:,.2f}")
 
 st.title("Mortgage Repayments")
 
